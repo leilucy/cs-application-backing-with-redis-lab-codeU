@@ -22,13 +22,17 @@ public class JedisMaker {
 	 * @throws IOException
 	 */
 	public static Jedis make() throws IOException {
-		// assemble the file name
-		String slash = File.separator;
-		String filename = "resources" + slash + "redis_url.txt";
 
+
+		// assemble the directory name
+		String slash = File.separator;
+		// String filename = System.getProperty("user.dir") + slash +
+		// 		"src" + slash + "resources" + slash + "redis_url.txt";
+
+    String filename = "resources" + slash + "redis_url.txt";
 		URL fileURL = JedisMaker.class.getClassLoader().getResource(filename);
 
-		StringBuilder sb = new StringBuilder();
+	  StringBuilder sb = new StringBuilder();
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(fileURL.getFile()));

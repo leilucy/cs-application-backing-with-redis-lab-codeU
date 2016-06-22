@@ -48,14 +48,15 @@ public class WikiFetcher {
 	public Elements readWikipedia(String url) throws IOException {
 		URL realURL = new URL(url);
 
-    // assemble the file name
-    String slash = File.separator;
-    String filename = "resources" + slash + realURL.getHost() + realURL.getPath();
+		// assemble the file name
+		String slash = File.separator;
+		String filename = "resources" + slash + realURL.getHost() + realURL.getPath();
 
-    // read the file
-    InputStream stream = WikiFetcher.class.getClassLoader().getResourceAsStream(filename);
-    Document doc = Jsoup.parse(stream, "UTF-8", filename);
+		// read the file
+		InputStream stream = WikiFetcher.class.getClassLoader().getResourceAsStream(filename);
+		Document doc = Jsoup.parse(stream, "UTF-8", filename);
 
+		// parse the contents of the file
 		// TODO: factor out the following repeated code
 		Element content = doc.getElementById("mw-content-text");
 		Elements paras = content.select("p");
@@ -79,5 +80,19 @@ public class WikiFetcher {
 			}
 		}
 		lastRequestTime = System.currentTimeMillis();
+	}
+
+	/**
+	 * @param args
+	 * @throws IOException
+	 */
+	public static void main(String[] args) throws IOException {
+		WikiFetcher wf = new WikiFetcher();
+		String url = "https://en.wikipedia.org/wiki/Java_(programming_language)";
+		Elements paragraphs = wf.readWikipedia(url);
+
+		for (Element paragraph: paragraphs) {
+			System.out.println(paragraph);
+		}
 	}
 }
